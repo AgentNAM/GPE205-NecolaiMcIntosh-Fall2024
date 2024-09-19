@@ -18,21 +18,49 @@ public class TankPawn : Pawn
 
     public override void MoveBackward()
     {
-        Debug.Log("Moving backwards");
+        if (mover != null)
+        {
+            mover.Move(transform.forward, -moveSpeed);
+        }
+        else
+        {
+            Debug.LogWarning("Warning: Mover component is not initialized!");
+        }
     }
 
     public override void MoveForward()
     {
-        Debug.Log("Moving forwards");
+        if (mover != null)
+        {
+            mover.Move(transform.forward, moveSpeed);
+        }
+        else
+        {
+            Debug.LogWarning("Warning: Mover component is not initialized!");
+        }
     }
 
     public override void RotateClockwise()
     {
-        Debug.Log("Rotating clockwise");
+        if (mover != null)
+        {
+            mover.Rotate(turnSpeed);
+        }
+        else
+        {
+            Debug.LogWarning("Warning: Mover component is not initialized!");
+        }
     }
 
     public override void RotateCounterClockwise()
     {
-        Debug.Log("Rotating counterclockwise");
+        if (mover != null)
+        {
+            mover.Rotate(-turnSpeed);
+        }
+        else
+        {
+            Debug.LogWarning("Warning: Mover component is not initialized!");
+        }
     }
 }

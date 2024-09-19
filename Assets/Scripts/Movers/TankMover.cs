@@ -32,7 +32,7 @@ public class TankMover : Mover
         rb.MovePosition(rb.position + moveVector);
     }
 
-    public void Rotate(float turnSpeed)
+    public override void Rotate(float turnSpeed)
     {
         tf.Rotate(0, turnSpeed * Time.deltaTime, 0);
     }

@@ -4,9 +4,12 @@ using UnityEngine;
 
 public class TankPawn : Pawn
 {
+    private float nextEventTime;
+
     // Start is called before the first frame update
     public override void Start()
     {
+        nextEventTime = Time.time + 1 / fireRate;
         base.Start();
     }
 
@@ -61,6 +64,15 @@ public class TankPawn : Pawn
         else
         {
             Debug.LogWarning("Warning: Mover component is not initialized!");
+        }
+    }
+
+    public override void Shoot()
+    {
+        if (Time.time >= nextEventTime)
+        {
+            shooter.Shoot(shellPrefab, fireForce, damageDone, shellLifespan);
+            nextEventTime = Time.time + 1 / fireRate;
         }
     }
 }

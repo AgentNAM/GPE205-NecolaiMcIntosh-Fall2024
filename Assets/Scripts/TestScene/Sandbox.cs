@@ -19,6 +19,9 @@ public class Sandbox : MonoBehaviour
 
         double d = char.GetNumericValue(c);
 
+        Debug.Log(a);
+        Debug.Log(b);
+        Debug.Log(c);
         Debug.Log(d);
 
     }

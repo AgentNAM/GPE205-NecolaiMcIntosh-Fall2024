@@ -38,26 +38,35 @@ public class PlayerController : Controller
         if (Input.GetKey(moveForwardKey))
         {
             pawn.MoveForward();
+            pawn.noiseMaker.volumeDistance = pawn.movingVolumeDistance;
         }
 
         if (Input.GetKey(moveBackwardKey))
         {
             pawn.MoveBackward();
+            pawn.noiseMaker.volumeDistance = pawn.movingVolumeDistance;
         }
 
         if (Input.GetKey(rotateClockwiseKey))
         {
             pawn.RotateClockwise();
+            pawn.noiseMaker.volumeDistance = pawn.movingVolumeDistance;
         }
 
         if (Input.GetKey(rotateCounterClockwiseKey))
         {
             pawn.RotateCounterClockwise();
+            pawn.noiseMaker.volumeDistance = pawn.movingVolumeDistance;
         }
 
         if (Input.GetKeyDown(shootKey))
         {
             pawn.Shoot();
+        }
+
+        if (!Input.GetKey(moveForwardKey) && !Input.GetKey(moveBackwardKey) && !Input.GetKey(rotateClockwiseKey) && !Input.GetKey(rotateCounterClockwiseKey))
+        {
+            pawn.noiseMaker.volumeDistance = 0;
         }
     }
 

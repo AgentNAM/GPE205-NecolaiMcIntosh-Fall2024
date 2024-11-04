@@ -1,6 +1,6 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!1 &4793011824941496138
+--- !u!1 &1966865819898568684
 GameObject:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -8,22 +8,22 @@ GameObject:
   m_PrefabAsset: {fileID: 0}
   serializedVersion: 6
   m_Component:
-  - component: {fileID: 1961024182183056943}
-  - component: {fileID: 7892848612734887202}
+  - component: {fileID: 1966865819898568686}
+  - component: {fileID: 1966865819898568681}
   m_Layer: 0
-  m_Name: AIController
+  m_Name: AIControllerEscort
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!4 &1961024182183056943
+--- !u!4 &1966865819898568686
 Transform:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4793011824941496138}
+  m_GameObject: {fileID: 1966865819898568684}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
@@ -32,20 +32,34 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &7892848612734887202
+--- !u!114 &1966865819898568681
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4793011824941496138}
+  m_GameObject: {fileID: 1966865819898568684}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5e438e23c7605f849ba7b7d386256bed, type: 3}
+  m_Script: {fileID: 11500000, guid: 979e6eb1bdbb8e741a842e4d3886bf92, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   pawn: {fileID: 0}
   currentState: 0
   target: {fileID: 0}
-  hearingDistance: 5
-  fieldOfView: 15
+  hearingDistance: 0
+  fieldOfView: 90
+  targetFieldOfView: 0
+  fleeDistance: 0
+  waypoints:
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  waypointStopDistance: 1
+  currentAIControllerState: 0
+  friend: {fileID: 0}

@@ -19,11 +19,28 @@ public class TankPawn : Pawn
         base.Update();
     }
 
-    public override void MoveBackward()
+    public override void MoveBackward(float moveSpeedPercent)
     {
         if (mover != null)
         {
-            mover.Move(transform.forward, -moveSpeed);
+            mover.Move(transform.forward, -moveSpeed * moveSpeedPercent);
+        }
+        else
+        {
+            Debug.LogWarning("Warning: Mover component is not initialized!");
+        }
+    }
+
+    public override void MoveBackward()
+    {
+        MoveBackward(1);
+    }
+
+    public override void MoveForward(float moveSpeedPercent)
+    {
+        if (mover != null)
+        {
+            mover.Move(transform.forward, moveSpeed * moveSpeedPercent);
         }
         else
         {
@@ -33,9 +50,14 @@ public class TankPawn : Pawn
 
     public override void MoveForward()
     {
+        MoveForward(1);
+    }
+
+    public override void RotateClockwise(float turnSpeedPercent)
+    {
         if (mover != null)
         {
-            mover.Move(transform.forward, moveSpeed);
+            mover.Rotate(turnSpeed * turnSpeedPercent);
         }
         else
         {
@@ -45,9 +67,14 @@ public class TankPawn : Pawn
 
     public override void RotateClockwise()
     {
+        RotateClockwise(1);
+    }
+
+    public override void RotateCounterClockwise(float turnSpeedPercent)
+    {
         if (mover != null)
         {
-            mover.Rotate(turnSpeed);
+            mover.Rotate(-turnSpeed * turnSpeedPercent);
         }
         else
         {
@@ -57,14 +84,7 @@ public class TankPawn : Pawn
 
     public override void RotateCounterClockwise()
     {
-        if (mover != null)
-        {
-            mover.Rotate(-turnSpeed);
-        }
-        else
-        {
-            Debug.LogWarning("Warning: Mover component is not initialized!");
-        }
+        RotateCounterClockwise(1);
     }
 
     public override void RotateTowards(Vector3 targetPosition)

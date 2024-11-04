@@ -48,6 +48,8 @@ GameObject:
   - component: {fileID: 7759324096695890464}
   - component: {fileID: 1094354210179394784}
   - component: {fileID: 7187205403196311150}
+  - component: {fileID: -1469498590261655593}
+  - component: {fileID: -467530650912757354}
   m_Layer: 0
   m_Name: UATank
   m_TagString: Untagged
@@ -168,11 +170,13 @@ MonoBehaviour:
   turnSpeed: 360
   mover: {fileID: 0}
   shooter: {fileID: 0}
+  noiseMaker: {fileID: 0}
   shellPrefab: {fileID: 7419168521824231594, guid: df09d98d25bd3ca4fbcee7600128ea2e, type: 3}
   fireForce: 1000
   damageDone: 10
   shellLifespan: 3
   fireRate: 2
+  movingVolumeDistance: 15
 --- !u!114 &7759324096695890464
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -212,3 +216,28 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   currentHealth: 100
   maxHealth: 100
+--- !u!114 &-1469498590261655593
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7453389171905000980}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c3fc8cc28c87bb54791d712cee8f5bd6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  volumeDistance: 0
+--- !u!114 &-467530650912757354
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7453389171905000980}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 57a89ce7dcbf6cd4c9d8ca939c7723ad, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 

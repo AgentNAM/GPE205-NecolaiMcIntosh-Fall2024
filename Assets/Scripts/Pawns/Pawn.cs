@@ -13,6 +13,8 @@ public abstract class Pawn : MonoBehaviour
     public Mover mover;
     // Variable for our  hooter
     public Shooter shooter;
+    // Variable for our NoiseMaker
+    public NoiseMaker noiseMaker;
 
     // Variable for our shell prefab
     public GameObject shellPrefab;
@@ -24,6 +26,8 @@ public abstract class Pawn : MonoBehaviour
     public float shellLifespan;
     // Variable for Rate of Fire
     public float fireRate;
+    // Variable for Volume Distance when Moving
+    public float movingVolumeDistance;
 
     // Start is called before the first frame update
     public virtual void Start()
@@ -32,6 +36,8 @@ public abstract class Pawn : MonoBehaviour
         mover = GetComponent<Mover>();
         // Initialize our Shooter component
         shooter = GetComponent<Shooter>();
+        // Initialize our NoiseMaker component
+        noiseMaker = GetComponent<NoiseMaker>();
     }
 
     // Update is called once per frame
@@ -41,9 +47,13 @@ public abstract class Pawn : MonoBehaviour
     }
 
     public abstract void MoveForward();
+    public abstract void MoveForward(float moveSpeedPercent);
     public abstract void MoveBackward();
+    public abstract void MoveBackward(float moveSpeedPercent);
     public abstract void RotateClockwise();
+    public abstract void RotateClockwise(float turnSpeedPercent);
     public abstract void RotateCounterClockwise();
+    public abstract void RotateCounterClockwise(float turnSpeedPercent);
     public abstract void RotateTowards(Vector3 targetPosition);
     public abstract void Shoot();
 }

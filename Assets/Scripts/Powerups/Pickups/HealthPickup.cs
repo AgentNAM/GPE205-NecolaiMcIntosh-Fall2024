@@ -5,6 +5,7 @@ using UnityEngine;
 public class HealthPickup : MonoBehaviour
 {
     public HealthPowerup powerup;
+
     // Start is called before the first frame update
     void Start()
     {

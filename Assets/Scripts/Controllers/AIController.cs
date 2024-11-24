@@ -28,6 +28,17 @@ public class AIController : Controller
     // Start is called before the first frame update
     public override void Start()
     {
+        // If we have a GameManager
+        if (GameManager.instance != null)
+        {
+            // And it is tracking our enemies in a list
+            if (GameManager.instance.enemies != null)
+            {
+                // Register ourselves with the GameManager
+                GameManager.instance.enemies.Add(this);
+            }
+        }
+
         ChangeState(currentState);
 
         base.Start();
@@ -307,6 +318,26 @@ public class AIController : Controller
         {
             RestartPatrol();
         }
+        /*
+        if (waypoints.Length > 0)
+        {
+            // If we have enough waypoints in our list to move to a current waypoint
+            if (waypoints.Length > currentWaypoint)
+            {
+                // Then seek that waypoint
+                Seek(waypoints[currentWaypoint]);
+                // If we are close enough, then increment to next waypoint
+                if (Vector3.Distance(pawn.transform.position, waypoints[currentWaypoint].position) < waypointStopDistance)
+                {
+                    currentWaypoint++;
+                }
+            }
+            else
+            {
+                RestartPatrol();
+            }
+        }
+        */
     }
 
     protected void RestartPatrol()

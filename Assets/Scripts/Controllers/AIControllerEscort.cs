@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class AIControllerEscort : AIController
 {
-    public enum CurrentAIState { ChooseFriend, Guard, Patrol, ChooseEnemy, Attack }
+    public enum CurrentAIState { ChooseFriend, Guard, Patrol, ChooseEnemy, Defend }
 
     public CurrentAIState currentAIControllerState;
 
@@ -93,20 +93,20 @@ public class AIControllerEscort : AIController
                 }
                 if (IsHasTarget())
                 {
-                    ChangeCurrentState(CurrentAIState.Attack);
+                    ChangeCurrentState(CurrentAIState.Defend);
                 }
                 // If true, we transition OUT of the ChooseEnemy state and into another state
                 break;
-            case CurrentAIState.Attack:
-                // Debug.Log("Do Attack");
-                // Do the behaviors associated with our Attack state
-                DoAttackState();
-                // Check for transitions OUT of our Attack state
+            case CurrentAIState.Defend:
+                // Debug.Log("Do Defend");
+                // Do the behaviors associated with our Defend state
+                DoDefendState();
+                // Check for transitions OUT of our Defend state
                 if (!IsHasFriend())
                 {
                     ChangeCurrentState(CurrentAIState.ChooseFriend);
                 }
-                if (!IsHasTarget())
+                if (!CanSee(target))
                 {
                     ChangeCurrentState(CurrentAIState.ChooseEnemy);
                 }
@@ -128,8 +128,32 @@ public class AIControllerEscort : AIController
         TargetNearestVisibleEnemy();
     }
 
-    // Behaviors
+    protected void DoDefendState()
+    {
+        if (target != null)
+        {
+            LookAt(target.transform);
+            Shoot();
+        }
+    }
 
+    // Behaviors
+    protected void LookAt(Vector3 targetPosition)
+    {
+        // Rotate towards the targetPosition
+        pawn.RotateTowards(targetPosition);
+    }
+
+    protected void LookAt(Transform targetTransform)
+    {
+        // Look at the target transform's position
+        LookAt(targetTransform.position);
+    }
+    protected void LookAt(GameObject target)
+    {
+        // Look at the target game object's transform
+        LookAt(target.transform);
+    }
 
     // Helper Methods and Transition Methods
     public virtual void ChangeCurrentState(CurrentAIState newState)
@@ -181,54 +205,64 @@ public class AIControllerEscort : AIController
 
     public void TargetNearestVisibleEnemy()
     {
-        AIController[] allEnemies = FindObjectsOfType<AIController>();
-
-        // Assume that we cannot see any enemy tanks
-        AIController closestEnemy = null;
-        float closestEnemyTankDistance = 0f;
-
-        // Iterate through the enemy AIControllers one at a time
-        foreach (AIController enemy in allEnemies)
+        // If the GameManager exists
+        if (GameManager.instance != null)
         {
-            // If the current enemy has a tank pawn
-            if (enemy.pawn != null)
+            // And the array of players exists
+            if (GameManager.instance.enemies != null)
             {
-                // If the current enemy's tank pawn is not this tank's pawn
-                if (enemy.pawn != pawn)
+                // And there are players in it
+                if (GameManager.instance.enemies.Count > 0)
                 {
-                    // If we can see the current enemy's tank pawn
-                    if (CanSee(enemy.pawn.gameObject))
+                    // Assume that we cannot see any enemy tanks
+                    Pawn closestTank = null;
+                    float closestTankDistance = 0f;
+
+                    // Iterate through the enemy controllers one at a time
+                    foreach (AIController enemy in GameManager.instance.enemies)
                     {
-                        // If the closest visible enemy has not yet been set
-                        if (closestEnemy == null)
+                        // If the current enemy is not us
+                        if (enemy != this)
                         {
-                            // Then this one is the new closest
-                            closestEnemy = enemy;
-                            closestEnemyTankDistance = Vector3.Distance(pawn.transform.position, closestEnemy.pawn.transform.position);
+                            // If the current enemy has a tank pawn
+                            if (enemy.pawn != null)
+                            {
+                                // If we can see the current enemy's tank pawn
+                                if (CanSee(enemy.pawn.gameObject))
+                                {
+                                    // If the closest visible enemy has not yet been set
+                                    if (closestTank == null)
+                                    {
+                                        // Then this one is the new closest
+                                        closestTank = enemy.pawn;
+                                        closestTankDistance = Vector3.Distance(pawn.transform.position, closestTank.transform.position);
+                                    }
+                                    // If this one is closer than the closest
+                                    else if (Vector3.Distance(pawn.transform.position, enemy.pawn.transform.position) <= closestTankDistance)
+                                    {
+                                        // Then this one is the new closest
+                                        closestTank = enemy.pawn;
+                                        closestTankDistance = Vector3.Distance(pawn.transform.position, closestTank.transform.position);
+                                    }
+                                }
+                            }
                         }
-                        // If this one is closer than the closest
-                        else if (Vector3.Distance(pawn.transform.position, enemy.pawn.transform.position) <= closestEnemyTankDistance)
-                        {
-                            // Then this one is the new closest
-                            closestEnemy = enemy;
-                            closestEnemyTankDistance = Vector3.Distance(pawn.transform.position, closestEnemy.pawn.transform.position);
-                        }
+                    }
+
+                    // If we saw any enemy tanks
+                    if (closestTank != null)
+                    {
+                        // Target the closest enemy's tank
+                        target = closestTank.gameObject;
+                    }
+                    // If we did not see any enemy tanks
+                    else
+                    {
+                        // Do not target any tanks
+                        target = null;
                     }
                 }
             }
-        }
-
-        // If we saw any enemy tanks
-        if (closestEnemy != null)
-        {
-            // Target the closest enemy's tank
-            target = closestEnemy.pawn.gameObject;
-        }
-        // If we did not see any enemy tanks
-        else
-        {
-            // Do not target any tanks
-            target = null;
         }
     }
 

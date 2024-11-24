@@ -17,10 +17,11 @@ public class MapGenerator : MonoBehaviour
     public int mapSeed;
 
 
+
     // Start is called before the first frame update
     void Start()
     {
-        GenerateMap();
+        
     }
 
     // Update is called once per frame

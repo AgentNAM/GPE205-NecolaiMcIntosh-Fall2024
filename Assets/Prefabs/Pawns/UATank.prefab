@@ -166,6 +166,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 706887807070f9d4f8465cb89ed1116a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  controller: {fileID: 0}
   moveSpeed: 10
   turnSpeed: 360
   mover: {fileID: 0}
@@ -216,6 +217,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   currentHealth: 100
   maxHealth: 100
+  pointsAwarded: 50
 --- !u!114 &-1469498590261655593
 MonoBehaviour:
   m_ObjectHideFlags: 0

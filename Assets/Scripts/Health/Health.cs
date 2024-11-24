@@ -7,6 +7,8 @@ public class Health : MonoBehaviour
     public float currentHealth;
     public float maxHealth;
 
+    public float pointsAwarded;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -44,6 +46,17 @@ public class Health : MonoBehaviour
 
     public void Die(Pawn source)
     {
+        source.controller.AddToScore(pointsAwarded);
+
+        Controller controller = GetComponent<Pawn>().controller;
+
+        if (controller != null)
+        {
+            controller.RemoveFromLives();
+
+            // Signal to our game manager to respawn our player, possibly
+        }
+
         Destroy(gameObject);
     }
 }

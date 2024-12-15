@@ -605,4 +605,30 @@ public class AIController : Controller
             return false;
         }
     }
+
+
+    public void OnDestroy()
+    {
+        // If we have a GameManager
+        if (GameManager.instance != null)
+        {
+            // And it is tracking our enemies in a list
+            if (GameManager.instance.enemies != null)
+            {
+                // Remove ourselves from the GameManager's list
+                GameManager.instance.enemies.Remove(this);
+            }
+        }
+    }
+
+    // Handle respawning
+    public override void HandleRespawn()
+    {
+        // If we have a GameManager
+        if (GameManager.instance != null)
+        {
+            // Signal to our game manager to respawn our enemy
+            GameManager.instance.RespawnEnemy(this);
+        }
+    }
 }

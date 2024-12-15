@@ -45,7 +45,13 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   pawn: {fileID: 0}
+  score: 0
+  lives: 0
   currentState: 0
   target: {fileID: 0}
   hearingDistance: 5
   fieldOfView: 15
+  targetFieldOfView: 0
+  fleeDistance: 0
+  waypoints: []
+  waypointStopDistance: 0

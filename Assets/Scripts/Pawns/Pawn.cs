@@ -18,6 +18,13 @@ public abstract class Pawn : MonoBehaviour
     public Shooter shooter;
     // Variable for our NoiseMaker
     public NoiseMaker noiseMaker;
+    // Variable for our AudioSource
+    public AudioSource audioSource;
+
+    /*
+    // Variable for our AudioManager
+    public AudioManager audioManager;
+    */
 
     // Variable for our shell prefab
     public GameObject shellPrefab;
@@ -25,12 +32,19 @@ public abstract class Pawn : MonoBehaviour
     public float fireForce;
     // Variable for damage done
     public float damageDone;
+    // Variable for damage multiplier
+    public float damageMultiplier;
     // Variable for bullet lifespan
     public float shellLifespan;
     // Variable for Rate of Fire
     public float fireRate;
     // Variable for Volume Distance when Moving
     public float movingVolumeDistance;
+
+    /*
+    // Variable to hold our audio source
+    public AudioSource audioSource;
+    */
 
     // Start is called before the first frame update
     public virtual void Start()
@@ -41,6 +55,13 @@ public abstract class Pawn : MonoBehaviour
         shooter = GetComponent<Shooter>();
         // Initialize our NoiseMaker component
         noiseMaker = GetComponent<NoiseMaker>();
+        // Initialize our AudioSource component
+        audioSource = GetComponent<AudioSource>();
+
+        /*
+        // Initialize our AudioManager component
+        audioManager = GetComponent<AudioManager>();
+        */
     }
 
     // Update is called once per frame
@@ -59,4 +80,6 @@ public abstract class Pawn : MonoBehaviour
     public abstract void RotateCounterClockwise(float turnSpeedPercent);
     public abstract void RotateTowards(Vector3 targetPosition);
     public abstract void Shoot();
+    public abstract void AddToDamageMultiplier(float dmAmount);
+    public abstract void RemoveFromDamageMultiplier(float dmAmount);
 }

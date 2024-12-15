@@ -54,5 +54,5 @@ MonoBehaviour:
   roomHeight: 50
   isMapSeed: 0
   isCurrentTime: 0
-  isMapOfTheDay: 0
+  isMapOfTheDay: 1
   mapSeed: 0

@@ -17,16 +17,28 @@ public class ToggleClickToRandomMap : MonoBehaviour
             GameManager.instance.ActivateRandomMap();
         }
         */
-        toggle.interactable = true;
+
+        /*
+        if (toggle != null)
+        {
+            toggle.interactable = true;
+        }
+        */
+        /*
+        if (toggle != null)
+        {
+            toggle.isOn = true;
+        }
+        */
     }
 
     public void ActivateRandomMap()
     {
         Toggle toggle = GetComponent<Toggle>();
 
-        if (toggle.isOn)
+        if (toggle != null)
         {
-            if (GameManager.instance != null)
+            if (GameManager.instance != null && toggle.isOn)
             {
                 GameManager.instance.ActivateRandomMap();
                 toggle.interactable = false;

@@ -11,10 +11,12 @@ public class ToggleClickToMapOfDay : MonoBehaviour
     {
         toggle = GetComponent<Toggle>();
 
+        /*
         if (GameManager.instance != null)
         {
             GameManager.instance.ActivateMapOfTheDay();
         }
+        */
         toggle.interactable = false;
     }
 
@@ -22,9 +24,9 @@ public class ToggleClickToMapOfDay : MonoBehaviour
     {
         Toggle toggle = GetComponent<Toggle>();
 
-        if (toggle.isOn)
+        if (toggle != null)
         {
-            if (GameManager.instance != null)
+            if (GameManager.instance != null && toggle.isOn)
             {
                 GameManager.instance.ActivateMapOfTheDay();
                 toggle.interactable = false;

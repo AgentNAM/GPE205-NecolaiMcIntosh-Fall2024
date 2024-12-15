@@ -6,6 +6,9 @@ public class TankPawn : Pawn
 {
     private float nextEventTime;
 
+    // Variables for SFX
+    public AudioClip sfxTankFire;
+
     // Start is called before the first frame update
     public override void Start()
     {
@@ -98,10 +101,29 @@ public class TankPawn : Pawn
 
     public override void Shoot()
     {
-        if (Time.time >= nextEventTime)
+        if (shooter != null)
         {
-            shooter.Shoot(shellPrefab, fireForce, damageDone, shellLifespan);
-            nextEventTime = Time.time + 1 / fireRate;
+            if (Time.time >= nextEventTime)
+            {
+                // Tell shooter to shoot
+                shooter.Shoot(shellPrefab, fireForce, damageDone * damageMultiplier, shellLifespan);
+                // Reset cooldown timer
+                nextEventTime = Time.time + 1 / fireRate;
+
+                // Play shooting sound effect
+                audioSource.PlayOneShot(sfxTankFire);
+                // AudioSource.PlayClipAtPoint(sfxTankFire, shooter.transform.position);
+            }
         }
+    }
+
+    public override void AddToDamageMultiplier(float dmAmount)
+    {
+        damageMultiplier += dmAmount;
+    }
+
+    public override void RemoveFromDamageMultiplier(float dmAmount)
+    {
+        damageMultiplier -= dmAmount;
     }
 }

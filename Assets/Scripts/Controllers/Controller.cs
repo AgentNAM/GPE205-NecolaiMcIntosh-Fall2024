@@ -16,7 +16,7 @@ public abstract class Controller : MonoBehaviour
     // Start is called before the first frame update
     public virtual void Start()
     {
-        
+
     }
 
     // Update is called once per frame
@@ -58,4 +58,15 @@ public abstract class Controller : MonoBehaviour
     {
         RemoveFromLives(1);
     }
+
+    // Function that updates our damage output
+    /*
+    public virtual void AddToDamageDone(float damageAmount)
+    {
+        pawn.damageDone
+    }
+    */
+
+    // Function that determines what to do when this controller's pawn is destroyed
+    public abstract void HandleRespawn();
 }

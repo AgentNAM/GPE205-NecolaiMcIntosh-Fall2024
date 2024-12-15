@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class Health : MonoBehaviour
 {
@@ -8,6 +9,8 @@ public class Health : MonoBehaviour
     public float maxHealth;
 
     public float pointsAwarded;
+
+    public Image healthIcon;
 
     // Start is called before the first frame update
     void Start()
@@ -27,7 +30,11 @@ public class Health : MonoBehaviour
         currentHealth -= amount;
         Debug.Log(source.name + " did " + amount + " damage to " + gameObject.name);
 
+        // Prevent overkill
         currentHealth = Mathf.Clamp(currentHealth, 0, maxHealth);
+
+        // Update health icon
+        UpdateHealthIcon();
 
         if (currentHealth <= 0)
         {
@@ -42,6 +49,9 @@ public class Health : MonoBehaviour
 
         // Prevent overhealing
         currentHealth = Mathf.Clamp(currentHealth, 0, maxHealth);
+
+        // Update health icon
+        UpdateHealthIcon();
     }
 
     public void Die(Pawn source)
@@ -54,9 +64,18 @@ public class Health : MonoBehaviour
         {
             controller.RemoveFromLives();
 
+            controller.HandleRespawn();
+            /*
             // Signal to our game manager to respawn our player, possibly
+            GameManager.instance.RespawnPlayer(controller);
+            */
         }
 
         Destroy(gameObject);
+    }
+
+    public void UpdateHealthIcon()
+    {
+        healthIcon.fillAmount = currentHealth / maxHealth;
     }
 }

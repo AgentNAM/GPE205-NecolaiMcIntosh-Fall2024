@@ -45,6 +45,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   pawn: {fileID: 0}
+  score: 0
+  lives: 3
   currentState: 0
   target: {fileID: 0}
   hearingDistance: 0

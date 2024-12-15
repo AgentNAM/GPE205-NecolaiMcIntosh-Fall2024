@@ -114,6 +114,28 @@ public class MapGenerator : MonoBehaviour
         }
     }
 
+    public void DestroyMap()
+    {
+        /*
+        for (int currentRow = 0; currentRow < rows; currentRow++)
+        {
+            Room[] row = grid[currentRow];
+        }
+        */
+        
+        // For each grid row
+        for (int currentRow = 0; currentRow < rows; currentRow++)
+        {
+            // For each column in that row
+            for (int currentCol = 0; currentCol < cols; currentCol++)
+            {
+                // Destroy the current room
+                Destroy(grid[currentRow, currentCol].gameObject);
+            }
+        }
+        
+    }
+
     public int DateToInt(DateTime dateToUse)
     {
         // Add our date up and return the result

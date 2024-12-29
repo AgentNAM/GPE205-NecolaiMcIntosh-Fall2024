@@ -29,6 +29,7 @@ public class ToggleClickToMapOfDay : MonoBehaviour
             if (GameManager.instance != null && toggle.isOn)
             {
                 GameManager.instance.ActivateMapOfTheDay();
+                GameManager.instance.PlayToggleClickSFX();
                 toggle.interactable = false;
             }
         }

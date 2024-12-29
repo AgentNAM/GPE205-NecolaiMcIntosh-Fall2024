@@ -4,11 +4,13 @@ using UnityEngine;
 public class MapGenerator : MonoBehaviour
 {
     public GameObject[] gridPrefabs;
+    public GameObject waterPlanePrefab;
     public int rows;
     public int cols;
     public float roomWidth = 50.0f;
     public float roomHeight = 50.0f;
     private Room[,] grid;
+    private GameObject waterPlane;
 
     public bool isMapSeed;
     public bool isCurrentTime;
@@ -82,47 +84,62 @@ public class MapGenerator : MonoBehaviour
                 grid[currentCol, currentRow] = tempRoom;
 
                 // This opens the necessary North and South doors
-                if (currentRow == 0)
+                if (rows > 1)
                 {
-                    tempRoom.doorNorth.SetActive(false);
-                }
-                else if (currentRow == rows - 1)
-                {
-                    tempRoom.doorSouth.SetActive(false);
-                }
-                else
-                {
-                    tempRoom.doorNorth.SetActive(false);
-                    tempRoom.doorSouth.SetActive(false);
+                    if (currentRow == 0)
+                    {
+                        tempRoom.doorNorth.SetActive(false);
+                    }
+                    else if (currentRow == rows - 1)
+                    {
+                        tempRoom.doorSouth.SetActive(false);
+                    }
+                    else
+                    {
+                        tempRoom.doorNorth.SetActive(false);
+                        tempRoom.doorSouth.SetActive(false);
+                    }
                 }
 
                 // This opens the necessary East and West doors
-                if (currentCol == 0)
+                if (cols > 1)
                 {
-                    tempRoom.doorEast.SetActive(false);
-                }
-                else if (currentCol == cols - 1)
-                {
-                    tempRoom.doorWest.SetActive(false);
-                }
-                else
-                {
-                    tempRoom.doorEast.SetActive(false);
-                    tempRoom.doorWest.SetActive(false);
+                    if (currentCol == 0)
+                    {
+                        tempRoom.doorEast.SetActive(false);
+                    }
+                    else if (currentCol == cols - 1)
+                    {
+                        tempRoom.doorWest.SetActive(false);
+                    }
+                    else
+                    {
+                        tempRoom.doorEast.SetActive(false);
+                        tempRoom.doorWest.SetActive(false);
+                    }
                 }
             }
         }
+
+        GenerateWaterPlane();
+    }
+
+    public void GenerateWaterPlane()
+    {
+        float waterXPosition = ((roomWidth * cols) / 2) - (roomWidth / 2);
+        float waterZPosition = ((roomHeight * rows) / 2) - (roomHeight / 2);
+        Vector3 newPosition = new Vector3(waterXPosition, 0.0f, waterZPosition);
+
+        float waterXScale = (roomWidth * (cols + 2)) / 10;
+        float waterZScale = (roomHeight * (rows + 2)) / 10;
+
+        // Create a waterPlane at the appropriate location
+        waterPlane = Instantiate(waterPlanePrefab, newPosition, Quaternion.identity);
+        waterPlane.transform.localScale = new Vector3(waterXScale, 0.1f, waterZScale);
     }
 
     public void DestroyMap()
     {
-        /*
-        for (int currentRow = 0; currentRow < rows; currentRow++)
-        {
-            Room[] row = grid[currentRow];
-        }
-        */
-        
         // For each grid row
         for (int currentRow = 0; currentRow < rows; currentRow++)
         {
@@ -133,7 +150,13 @@ public class MapGenerator : MonoBehaviour
                 Destroy(grid[currentRow, currentCol].gameObject);
             }
         }
-        
+
+        DestroyWaterPlane();
+    }
+
+    public void DestroyWaterPlane()
+    {
+        Destroy(waterPlane);
     }
 
     public int DateToInt(DateTime dateToUse)

@@ -42,6 +42,7 @@ public class GameManager : MonoBehaviour
     public GameObject CreditsScreenStateObject;
     public GameObject GameplayStateObject;
     public GameObject GameOverScreenStateObject;
+    public GameObject VictoryScreenStateObject;
 
     // Map Seed Toggle Buttons
     public Toggle MapOfDayToggle;
@@ -63,6 +64,10 @@ public class GameManager : MonoBehaviour
     // Variable for music
     public AudioClip backgroundMusic;
     */
+
+    // Variables for audio players
+    public AudioPlayer buttonPressAudioPlayer;
+    public AudioPlayer toggleClickAudioPlayer;
 
     // Awake is called when the object is first created - before even Start can run!
     private void Awake()
@@ -87,6 +92,11 @@ public class GameManager : MonoBehaviour
     void Start()
     {
         ActivateTitleScreen();
+
+        // Update all volumes
+        SetMainVolume();
+        SetMusicVolume();
+        SetSFXVolume();
 
         /*
         DeactivateAllStates();
@@ -131,9 +141,8 @@ public class GameManager : MonoBehaviour
             GameObject newPlayerObj = Instantiate(playerControllerPrefab, Vector3.zero, Quaternion.identity) as GameObject;
             // Spawn our Pawn and connect it to our Controller
             GameObject newPawnObj = Instantiate(tankPawnPrefab, spawnPointTf.position, spawnPointTf.rotation) as GameObject;
-
             // Spawn our camera behind the tank (UPDATE TO REMOVE MAGIC NUMBERS)
-            GameObject newCameraObj = Instantiate(cameraPrefab, spawnPointTf.position + (Vector3.back * cameraOffsetBack) + (Vector3.up * cameraOffsetUp), spawnPointTf.rotation) as GameObject;
+            GameObject newCameraObj = Instantiate(cameraPrefab, spawnPointTf.position + (-spawnPointTf.forward * cameraOffsetBack) + (spawnPointTf.up * cameraOffsetUp), spawnPointTf.rotation) as GameObject;
             // Disable this new camera's AudioListener component
             newCameraObj.GetComponent<AudioListener>().enabled = false;
 
@@ -277,7 +286,7 @@ public class GameManager : MonoBehaviour
                 GameObject newPawnObj = Instantiate(tankPawnPrefab, spawnPointTf.position, spawnPointTf.rotation) as GameObject;
 
                 // Spawn our camera behind the tank (UPDATE TO REMOVE MAGIC NUMBERS)
-                GameObject newCameraObj = Instantiate(cameraPrefab, spawnPointTf.position + (Vector3.back * cameraOffsetBack) + (Vector3.up * cameraOffsetUp), spawnPointTf.rotation) as GameObject;
+                GameObject newCameraObj = Instantiate(cameraPrefab, spawnPointTf.position + (-spawnPointTf.forward * cameraOffsetBack) + (spawnPointTf.up * cameraOffsetUp), spawnPointTf.rotation) as GameObject;
                 // Disable this new camera's AudioListener component
                 newCameraObj.GetComponent<AudioListener>().enabled = false;
 
@@ -340,6 +349,12 @@ public class GameManager : MonoBehaviour
         else
         {
             enemies.Remove(enemyToRespawn);
+
+            // If there are no more enemies, switch to Victory state
+            if (enemies.Count <= 0)
+            {
+                ActivateVictory();
+            }
         }
     }
 
@@ -386,6 +401,19 @@ public class GameManager : MonoBehaviour
         }
     }
 
+    public void EndGame()
+    {
+        // Despawn pickups
+        DespawnPickups();
+
+        // Destroy map
+        mapGenerator.DestroyMap();
+
+        // Despawn players and enemies
+        DespawnPlayers();
+        DespawnEnemies();
+    }
+
 
 
     // Helper function for deactivating all game states
@@ -398,10 +426,10 @@ public class GameManager : MonoBehaviour
         CreditsScreenStateObject.SetActive(false);
         GameplayStateObject.SetActive(false);
         GameOverScreenStateObject.SetActive(false);
+        VictoryScreenStateObject.SetActive(false);
     }
 
     // Game state transition functions
-
     public void ActivateTitleScreen()
     {
         // Deactivate all states
@@ -453,16 +481,24 @@ public class GameManager : MonoBehaviour
         // Activate the game over screen
         GameOverScreenStateObject.SetActive(true);
 
-        // Despawn pickups
-        DespawnPickups();
+        // Reset everything
+        EndGame();
+    }
 
-        // Destroy map
-        mapGenerator.DestroyMap();
+    public void ActivateVictory()
+    {
+        // Deactivate all states
+        DeactivateAllStates();
+        // Activate the game over screen
+        VictoryScreenStateObject.SetActive(true);
 
-        // Despawn players and enemies
-        DespawnPlayers();
-        DespawnEnemies();
+        // Reset everything
+        EndGame();
+    }
 
+    public void QuitGame()
+    {
+        Application.Quit();
     }
 
     // Stub helper function to Toggle Map Of Day
@@ -592,7 +628,7 @@ public class GameManager : MonoBehaviour
             // We are >0, so start by finding the log10 value
             newVolume = Mathf.Log10(newVolume);
             // Make it in the 0-20 db range (instead of 0-1 db)
-            newVolume = newVolume * 20;
+            newVolume *= 20;
         }
 
         // Set the volume to the new volume setting
@@ -614,7 +650,7 @@ public class GameManager : MonoBehaviour
             // We are >0, so start by finding the log10 value
             newVolume = Mathf.Log10(newVolume);
             // Make it in the 0-20 db range (instead of 0-1 db)
-            newVolume = newVolume * 20;
+            newVolume *= 20;
         }
 
         // Set the volume to the new volume setting
@@ -636,10 +672,21 @@ public class GameManager : MonoBehaviour
             // We are >0, so start by finding the log10 value
             newVolume = Mathf.Log10(newVolume);
             // Make it in the 0-20 db range (instead of 0-1 db)
-            newVolume = newVolume * 20;
+            newVolume *= 20;
         }
 
         // Set the volume to the new volume setting
         audioMixer.SetFloat("SFXVolume", newVolume);
+    }
+
+    // Helper function for playing button click sound effect
+    public void PlayButtonPressSFX()
+    {
+        buttonPressAudioPlayer.PlaySound();
+    }
+
+    public void PlayToggleClickSFX()
+    {
+        toggleClickAudioPlayer.PlaySound();
     }
 }

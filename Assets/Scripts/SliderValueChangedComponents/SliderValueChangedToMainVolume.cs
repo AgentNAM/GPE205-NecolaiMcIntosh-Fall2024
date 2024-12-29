@@ -11,13 +11,8 @@ public class SliderValueChangedToMainVolume : MonoBehaviour
     void Start()
     {
         slider = GetComponent<Slider>();
-        GameManager.instance.SetMainVolume();
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-
+        // Debug.Log("Main volume active");
+        // SetMainVolume();
     }
 
     public void SetMainVolume()
@@ -26,7 +21,7 @@ public class SliderValueChangedToMainVolume : MonoBehaviour
         {
             if (slider != null)
             {
-                // Debug.Log(slider.value);
+                // Debug.Log("Main volume: " + slider.value);
                 GameManager.instance.SetMainVolume();
             }
         }

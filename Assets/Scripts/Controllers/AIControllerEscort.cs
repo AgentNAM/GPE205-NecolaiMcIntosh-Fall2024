@@ -4,11 +4,13 @@ using UnityEngine;
 
 public class AIControllerEscort : AIController
 {
-    public enum CurrentAIState { ChooseFriend, Guard, Patrol, ChooseEnemy, Defend }
+    public enum CurrentAIState { ChooseFriend, Scan, Follow, ChooseEnemy, Attack }
 
     public CurrentAIState currentAIControllerState;
 
     public GameObject friend;
+    public float minFollowDistance;
+    public float maxFollowDistance;
 
 
     // Start is called before the first frame update
@@ -34,49 +36,49 @@ public class AIControllerEscort : AIController
                 // Check for transitions OUT of our ChooseFriend state
                 if (IsHasFriend())
                 {
-                    ChangeCurrentState(CurrentAIState.Guard);
+                    ChangeCurrentState(CurrentAIState.Scan);
                 }
                 // If true, we transition OUT of the ChooseFriend state and into another state
                 break;
-            case CurrentAIState.Guard:
-                // Debug.Log("Do Guard");
-                // Do the behaviors associated with our Guard state
-                DoGuardState();
-                // Check for transitions OUT of our Guard state
+            case CurrentAIState.Scan:
+                // Debug.Log("Do Scan");
+                // Do the behaviors associated with our Scan state
+                DoScanState();
+                // Check for transitions OUT of our Scan state
                 if (!IsHasFriend())
                 {
                     ChangeCurrentState(CurrentAIState.ChooseFriend);
                 }
-                if (IsDistanceLessThan(friend, 5))
+                if (IsDistanceLessThan(friend, maxFollowDistance) && !IsDistanceLessThan(friend, minFollowDistance))
                 {
-                    ChangeCurrentState(CurrentAIState.Patrol);
+                    ChangeCurrentState(CurrentAIState.Follow);
                 }
                 if (HasTimePassed(1))
                 {
                     ChangeCurrentState(CurrentAIState.ChooseEnemy);
                 }
 
-                // If true, we transition OUT of the Guard state and into another state
+                // If true, we transition OUT of the Scan state and into another state
                 break;
-            case CurrentAIState.Patrol:
-                // Debug.Log("Do Patrol");
-                // Do the behaviors associated with our Patrol state
-                DoPatrolState();
-                // Check for transitions OUT of our Patrol state
+            case CurrentAIState.Follow:
+                // Debug.Log("Do Follow");
+                // Do the behaviors associated with our Follow state
+                DoFollowState();
+                // Check for transitions OUT of our Follow state
                 if (!IsHasFriend())
                 {
                     ChangeCurrentState(CurrentAIState.ChooseFriend);
                 }
-                if (!IsDistanceLessThan(friend, 5))
+                if (IsDistanceLessThan(friend, minFollowDistance) || !IsDistanceLessThan(friend, maxFollowDistance))
                 {
-                    ChangeCurrentState(CurrentAIState.Guard);
+                    ChangeCurrentState(CurrentAIState.Scan);
                 }
                 if (HasTimePassed(1))
                 {
                     ChangeCurrentState(CurrentAIState.ChooseEnemy);
                 }
 
-                // If true, we transition OUT of the Patrol state and into another state
+                // If true, we transition OUT of the Follow state and into another state
                 break;
             case CurrentAIState.ChooseEnemy:
                 // Debug.Log("Do ChooseEnemy");
@@ -89,19 +91,19 @@ public class AIControllerEscort : AIController
                 }
                 if (!IsHasTarget())
                 {
-                    ChangeCurrentState(CurrentAIState.Guard);
+                    ChangeCurrentState(CurrentAIState.Scan);
                 }
                 if (IsHasTarget())
                 {
-                    ChangeCurrentState(CurrentAIState.Defend);
+                    ChangeCurrentState(CurrentAIState.Attack);
                 }
                 // If true, we transition OUT of the ChooseEnemy state and into another state
                 break;
-            case CurrentAIState.Defend:
-                // Debug.Log("Do Defend");
-                // Do the behaviors associated with our Defend state
-                DoDefendState();
-                // Check for transitions OUT of our Defend state
+            case CurrentAIState.Attack:
+                // Debug.Log("Do Attack");
+                // Do the behaviors associated with our Attack state
+                DoAttackState();
+                // Check for transitions OUT of our Attack state
                 if (!IsHasFriend())
                 {
                     ChangeCurrentState(CurrentAIState.ChooseFriend);
@@ -128,12 +130,11 @@ public class AIControllerEscort : AIController
         TargetNearestVisibleEnemy();
     }
 
-    protected void DoDefendState()
+    protected void DoFollowState()
     {
-        if (target != null)
+        if (friend != null)
         {
-            LookAt(target.transform);
-            Shoot();
+            Seek(friend.transform);
         }
     }
 
@@ -224,25 +225,29 @@ public class AIControllerEscort : AIController
                         // If the current enemy is not us
                         if (enemy != this)
                         {
-                            // If the current enemy has a tank pawn
-                            if (enemy.pawn != null)
+                            // If the current enemy is not of type AIControllerEscort
+                            if (!(enemy is AIControllerEscort))
                             {
-                                // If we can see the current enemy's tank pawn
-                                if (CanSee(enemy.pawn.gameObject))
+                                // If the current enemy has a tank pawn
+                                if (enemy.pawn != null)
                                 {
-                                    // If the closest visible enemy has not yet been set
-                                    if (closestTank == null)
+                                    // If we can see the current enemy's tank pawn
+                                    if (CanSee(enemy.pawn.gameObject))
                                     {
-                                        // Then this one is the new closest
-                                        closestTank = enemy.pawn;
-                                        closestTankDistance = Vector3.Distance(pawn.transform.position, closestTank.transform.position);
-                                    }
-                                    // If this one is closer than the closest
-                                    else if (Vector3.Distance(pawn.transform.position, enemy.pawn.transform.position) <= closestTankDistance)
-                                    {
-                                        // Then this one is the new closest
-                                        closestTank = enemy.pawn;
-                                        closestTankDistance = Vector3.Distance(pawn.transform.position, closestTank.transform.position);
+                                        // If the closest visible enemy has not yet been set
+                                        if (closestTank == null)
+                                        {
+                                            // Then this one is the new closest
+                                            closestTank = enemy.pawn;
+                                            closestTankDistance = Vector3.Distance(pawn.transform.position, closestTank.transform.position);
+                                        }
+                                        // If this one is closer than the closest
+                                        else if (Vector3.Distance(pawn.transform.position, enemy.pawn.transform.position) <= closestTankDistance)
+                                        {
+                                            // Then this one is the new closest
+                                            closestTank = enemy.pawn;
+                                            closestTankDistance = Vector3.Distance(pawn.transform.position, closestTank.transform.position);
+                                        }
                                     }
                                 }
                             }

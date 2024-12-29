@@ -27,8 +27,15 @@ public class Health : MonoBehaviour
 
     public void TakeDamage(float amount, Pawn source)
     {
+        // Play damage sound
+        Instantiate(GetComponent<Pawn>().sfxDamagePrefab);
+
+        // Decrease current health
         currentHealth -= amount;
-        Debug.Log(source.name + " did " + amount + " damage to " + gameObject.name);
+        if (source != null)
+        {
+            Debug.Log(source.name + " did " + amount + " damage to " + gameObject.name);
+        }
 
         // Prevent overkill
         currentHealth = Mathf.Clamp(currentHealth, 0, maxHealth);
@@ -44,8 +51,12 @@ public class Health : MonoBehaviour
 
     public void Heal(float amount, Pawn source)
     {
+        // Increase current health
         currentHealth += amount;
-        Debug.Log(source.name + " did " + amount + " healing to " + gameObject.name);
+        if (source != null)
+        {
+            Debug.Log(source.name + " did " + amount + " healing to " + gameObject.name);
+        }
 
         // Prevent overhealing
         currentHealth = Mathf.Clamp(currentHealth, 0, maxHealth);
@@ -54,10 +65,11 @@ public class Health : MonoBehaviour
         UpdateHealthIcon();
     }
 
-    public void Die(Pawn source)
+    public void Die()
     {
-        source.controller.AddToScore(pointsAwarded);
-
+        // Play death sound
+        Instantiate(GetComponent<Pawn>().sfxDeathPrefab);
+        // Get controller
         Controller controller = GetComponent<Pawn>().controller;
 
         if (controller != null)
@@ -72,6 +84,13 @@ public class Health : MonoBehaviour
         }
 
         Destroy(gameObject);
+    }
+
+    public void Die(Pawn source)
+    {
+        source.controller.AddToScore(pointsAwarded);
+
+        Die();
     }
 
     public void UpdateHealthIcon()

@@ -129,14 +129,6 @@ public class AIControllerCoward : AIController
             Sneak();
         }
     }
-    protected void DoWithdrawState()
-    {
-        if (target != null)
-        {
-            BackAway(target);
-            Shoot();
-        }
-    }
 
     protected void DoCowerState()
     {
@@ -158,24 +150,6 @@ public class AIControllerCoward : AIController
     {
         pawn.MoveForward(sneakSpeedPercent);
         pawn.RotateTowards(target.transform.position);
-    }
-
-    protected void BackAway(Vector3 targetPosition)
-    {
-        // Rotate towards the targetPosition
-        pawn.RotateTowards(targetPosition);
-        // Move Backward
-        pawn.MoveBackward();
-    }
-
-    protected void BackAway(Transform targetTransform)
-    {
-        BackAway(targetTransform.position);
-    }
-
-    protected void BackAway(GameObject target)
-    {
-        BackAway(target.transform);
     }
 
 

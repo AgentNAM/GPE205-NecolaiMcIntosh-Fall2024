@@ -18,7 +18,7 @@ public class AIControllerSleepy : AIController
     public override void Start()
     {
         tankHealth = pawn.GetComponent<Health>();
-        currentHealth = pawn.GetComponent<Health>().currentHealth;
+        currentHealth = tankHealth.currentHealth;
         base.Start();
     }
 
@@ -180,7 +180,7 @@ public class AIControllerSleepy : AIController
     protected void UpdateHealth()
     {
         lastHealth = currentHealth;
-        currentHealth = pawn.GetComponent<Health>().currentHealth;
+        currentHealth = tankHealth.currentHealth;
 
         // Debug.Log(lastHealth + " -> " + currentHealth);
     }

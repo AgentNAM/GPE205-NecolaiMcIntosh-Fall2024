@@ -114,3 +114,5 @@ MonoBehaviour:
     duration: 0
     isPermanent: 1
     healthToAdd: 15
+  sfxCollect: {fileID: 8300000, guid: 6fede028ba58b48d08e05b2bff883359, type: 3}
+  sfxCollectPrefab: {fileID: 3212532994085224499, guid: ea80a92ed5a6a1146a6c9c67ecf3fb37, type: 3}

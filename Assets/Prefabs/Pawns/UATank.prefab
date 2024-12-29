@@ -227,7 +227,6 @@ GameObject:
   - component: {fileID: 7187205403196311150}
   - component: {fileID: -1469498590261655593}
   - component: {fileID: -467530650912757354}
-  - component: {fileID: 650696760852640008}
   m_Layer: 0
   m_Name: UATank
   m_TagString: Untagged
@@ -351,7 +350,6 @@ MonoBehaviour:
   mover: {fileID: 0}
   shooter: {fileID: 0}
   noiseMaker: {fileID: 0}
-  audioSource: {fileID: 0}
   shellPrefab: {fileID: 7419168521824231594, guid: df09d98d25bd3ca4fbcee7600128ea2e, type: 3}
   fireForce: 1000
   damageDone: 10
@@ -359,7 +357,12 @@ MonoBehaviour:
   shellLifespan: 3
   fireRate: 2
   movingVolumeDistance: 15
-  sfxTankFire: {fileID: 8300000, guid: af66162561d2eed40ad49268cab318bb, type: 3}
+  sfxFirePrefab: {fileID: 3212532994085224499, guid: 14ba8f4e833fe444aa551336dbbd88fd, type: 3}
+  sfxDamagePrefab: {fileID: 3212532994085224499, guid: 347c1359bad6bb64e9377ee560d13aac, type: 3}
+  sfxDeathPrefab: {fileID: 3212532994085224499, guid: 9afe2056416e8784f96fc53c21ce17c1, type: 3}
+  sfxTankFirePrefab: {fileID: 3212532994085224499, guid: 14ba8f4e833fe444aa551336dbbd88fd, type: 3}
+  sfxTankDamagePrefab: {fileID: 3212532994085224499, guid: 347c1359bad6bb64e9377ee560d13aac, type: 3}
+  sfxTankDeathPrefab: {fileID: 3212532994085224499, guid: 9afe2056416e8784f96fc53c21ce17c1, type: 3}
 --- !u!114 &7759324096695890464
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -426,99 +429,3 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 57a89ce7dcbf6cd4c9d8ca939c7723ad, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!82 &650696760852640008
-AudioSource:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7453389171905000980}
-  m_Enabled: 1
-  serializedVersion: 4
-  OutputAudioMixerGroup: {fileID: -445835135889445520, guid: 4c67ca685057ca04d8b21ab9f6bde587, type: 2}
-  m_audioClip: {fileID: 0}
-  m_PlayOnAwake: 1
-  m_Volume: 1
-  m_Pitch: 1
-  Loop: 0
-  Mute: 0
-  Spatialize: 0
-  SpatializePostEffects: 0
-  Priority: 128
-  DopplerLevel: 1
-  MinDistance: 1
-  MaxDistance: 500
-  Pan2D: 0
-  rolloffMode: 0
-  BypassEffects: 0
-  BypassListenerEffects: 0
-  BypassReverbZones: 0
-  rolloffCustomCurve:
-    serializedVersion: 2
-    m_Curve:
-    - serializedVersion: 3
-      time: 0
-      value: 1
-      inSlope: 0
-      outSlope: 0
-      tangentMode: 0
-      weightedMode: 0
-      inWeight: 0.33333334
-      outWeight: 0.33333334
-    - serializedVersion: 3
-      time: 1
-      value: 0
-      inSlope: 0
-      outSlope: 0
-      tangentMode: 0
-      weightedMode: 0
-      inWeight: 0.33333334
-      outWeight: 0.33333334
-    m_PreInfinity: 2
-    m_PostInfinity: 2
-    m_RotationOrder: 4
-  panLevelCustomCurve:
-    serializedVersion: 2
-    m_Curve:
-    - serializedVersion: 3
-      time: 0
-      value: 0
-      inSlope: 0
-      outSlope: 0
-      tangentMode: 0
-      weightedMode: 0
-      inWeight: 0.33333334
-      outWeight: 0.33333334
-    m_PreInfinity: 2
-    m_PostInfinity: 2
-    m_RotationOrder: 4
-  spreadCustomCurve:
-    serializedVersion: 2
-    m_Curve:
-    - serializedVersion: 3
-      time: 0
-      value: 0
-      inSlope: 0
-      outSlope: 0
-      tangentMode: 0
-      weightedMode: 0
-      inWeight: 0.33333334
-      outWeight: 0.33333334
-    m_PreInfinity: 2
-    m_PostInfinity: 2
-    m_RotationOrder: 4
-  reverbZoneMixCustomCurve:
-    serializedVersion: 2
-    m_Curve:
-    - serializedVersion: 3
-      time: 0
-      value: 1
-      inSlope: 0
-      outSlope: 0
-      tangentMode: 0
-      weightedMode: 0
-      inWeight: 0.33333334
-      outWeight: 0.33333334
-    m_PreInfinity: 2
-    m_PostInfinity: 2
-    m_RotationOrder: 4

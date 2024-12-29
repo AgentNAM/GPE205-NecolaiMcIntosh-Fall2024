@@ -6,9 +6,6 @@ public class TankPawn : Pawn
 {
     private float nextEventTime;
 
-    // Variables for SFX
-    public AudioClip sfxTankFire;
-
     // Start is called before the first frame update
     public override void Start()
     {
@@ -92,7 +89,9 @@ public class TankPawn : Pawn
 
     public override void RotateTowards(Vector3 targetPosition)
     {
-        Vector3 vectorToTarget = targetPosition - transform.position;
+        Vector3 targetPositionEyeLevel = new Vector3(targetPosition.x, transform.position.y, targetPosition.z);
+
+        Vector3 vectorToTarget = targetPositionEyeLevel - transform.position;
 
         Quaternion targetRotation = Quaternion.LookRotation(vectorToTarget, Vector3.up);
 
@@ -111,7 +110,9 @@ public class TankPawn : Pawn
                 nextEventTime = Time.time + 1 / fireRate;
 
                 // Play shooting sound effect
-                audioSource.PlayOneShot(sfxTankFire);
+                Instantiate(sfxFirePrefab);
+
+                // audioSource.PlayOneShot(sfxTankFire);
                 // AudioSource.PlayClipAtPoint(sfxTankFire, shooter.transform.position);
             }
         }

@@ -9,6 +9,7 @@ public class ButtonPressToTitle : MonoBehaviour
         if (GameManager.instance != null)
         {
             GameManager.instance.ActivateTitleScreen();
+            GameManager.instance.PlayButtonPressSFX();
         }
     }
 }

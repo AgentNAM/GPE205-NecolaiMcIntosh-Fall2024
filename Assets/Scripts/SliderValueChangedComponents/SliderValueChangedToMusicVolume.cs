@@ -11,13 +11,8 @@ public class SliderValueChangedToMusicVolume : MonoBehaviour
     void Start()
     {
         slider = GetComponent<Slider>();
-        GameManager.instance.SetMusicVolume();
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-
+        // Debug.Log("Music volume active");
+        // SetMusicVolume();
     }
 
     public void SetMusicVolume()
@@ -26,7 +21,7 @@ public class SliderValueChangedToMusicVolume : MonoBehaviour
         {
             if (slider != null)
             {
-                // Debug.Log(slider.value);
+                // Debug.Log("Music volume: " + slider.value);
                 GameManager.instance.SetMusicVolume();
             }
         }

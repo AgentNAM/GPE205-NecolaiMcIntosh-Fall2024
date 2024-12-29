@@ -9,6 +9,7 @@ public class ButtonPressToPlay : MonoBehaviour
         if (GameManager.instance != null)
         {
             GameManager.instance.ActivateGameplay();
+            GameManager.instance.PlayButtonPressSFX();
         }
     }
 }

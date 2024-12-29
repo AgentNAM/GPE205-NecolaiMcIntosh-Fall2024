@@ -6,10 +6,13 @@ public class HealthPickup : MonoBehaviour
 {
     public HealthPowerup powerup;
 
+    // Variable for Audio Player prefab
+    public GameObject sfxCollectPrefab;
+
     // Start is called before the first frame update
     void Start()
     {
-        
+
     }
 
     // Update is called once per frame
@@ -26,6 +29,9 @@ public class HealthPickup : MonoBehaviour
         // If other object has it
         if (powerupManager != null)
         {
+            // Play collection sound effect
+            Instantiate(sfxCollectPrefab);
+
             // Add the powerup
             powerupManager.Add(powerup);
 

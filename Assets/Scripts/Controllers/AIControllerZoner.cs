@@ -144,58 +144,8 @@ public class AIControllerZoner : AIController
     }
 
     // States
-    protected void DoScanState()
-    {
-        Scan();
-    }
-
-    protected void DoAlertState()
-    {
-        if (target != null)
-        {
-            RotateTowards(target.transform.position);
-        }
-    }
-
-    protected void DoWithdrawState()
-    {
-        if (target != null)
-        {
-            BackAway(target);
-            Shoot();
-        }
-    }
 
     // Behaviors
-    protected void Scan()
-    {
-        pawn.RotateClockwise();
-    }
-
-    protected void RotateTowards(Vector3 targetPosition)
-    {
-        // Tell our pawn to rotate towards the targetPosition
-        pawn.RotateTowards(targetPosition);
-    }
-
-    protected void BackAway(Vector3 targetPosition)
-    {
-        // Rotate towards the targetPosition
-        pawn.RotateTowards(targetPosition);
-        // Move Backward
-        pawn.MoveBackward();
-    }
-
-    protected void BackAway(Transform targetTransform)
-    {
-        BackAway(targetTransform.position);
-    }
-
-    protected void BackAway(GameObject target)
-    {
-        BackAway(target.transform);
-    }
-
 
     // Helper Methods and Transition Methods
     public virtual void ChangeCurrentState(CurrentAIState newState)

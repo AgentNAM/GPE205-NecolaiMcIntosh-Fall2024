@@ -6,6 +6,9 @@ public class DamageBoostPickup : MonoBehaviour
 {
     public DamageBoostPowerup powerup;
 
+    // Variable for Audio Player prefab
+    public GameObject sfxCollectPrefab;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -26,6 +29,9 @@ public class DamageBoostPickup : MonoBehaviour
         // If other object has it
         if (powerupManager != null)
         {
+            // Play collection sound effect
+            Instantiate(sfxCollectPrefab);
+
             // Add the powerup
             powerupManager.Add(powerup);
 

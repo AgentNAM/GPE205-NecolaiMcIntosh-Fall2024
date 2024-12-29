@@ -9,6 +9,7 @@ public class ButtonPressToOptions : MonoBehaviour
         if (GameManager.instance != null)
         {
             GameManager.instance.ActivateOptionsMenu();
+            GameManager.instance.PlayButtonPressSFX();
         }
     }
 }

@@ -41,6 +41,7 @@ public class ToggleClickToRandomMapSeed : MonoBehaviour
             if (GameManager.instance != null && toggle.isOn)
             {
                 GameManager.instance.ActivateRandomMapSeed();
+                GameManager.instance.PlayToggleClickSFX();
                 toggle.interactable = false;
             }
         }

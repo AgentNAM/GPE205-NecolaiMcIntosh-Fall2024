@@ -18,13 +18,6 @@ public abstract class Pawn : MonoBehaviour
     public Shooter shooter;
     // Variable for our NoiseMaker
     public NoiseMaker noiseMaker;
-    // Variable for our AudioSource
-    public AudioSource audioSource;
-
-    /*
-    // Variable for our AudioManager
-    public AudioManager audioManager;
-    */
 
     // Variable for our shell prefab
     public GameObject shellPrefab;
@@ -41,10 +34,10 @@ public abstract class Pawn : MonoBehaviour
     // Variable for Volume Distance when Moving
     public float movingVolumeDistance;
 
-    /*
-    // Variable to hold our audio source
-    public AudioSource audioSource;
-    */
+    // Variablees for Audio Player prefabs
+    public GameObject sfxFirePrefab;
+    public GameObject sfxDamagePrefab;
+    public GameObject sfxDeathPrefab;
 
     // Start is called before the first frame update
     public virtual void Start()
@@ -55,13 +48,6 @@ public abstract class Pawn : MonoBehaviour
         shooter = GetComponent<Shooter>();
         // Initialize our NoiseMaker component
         noiseMaker = GetComponent<NoiseMaker>();
-        // Initialize our AudioSource component
-        audioSource = GetComponent<AudioSource>();
-
-        /*
-        // Initialize our AudioManager component
-        audioManager = GetComponent<AudioManager>();
-        */
     }
 
     // Update is called once per frame

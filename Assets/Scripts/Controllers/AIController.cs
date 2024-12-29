@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class AIController : Controller
 {
-    public enum AIState { ChooseTarget, Guard, Scan, Chase, Attack, Flee, Patrol, BackToPost };
+    public enum AIState { ChooseTarget, Guard, Scan, Alert, Chase, Attack, Flee, Withdraw, Patrol, BackToPost };
 
     public AIState currentState;
 
@@ -23,7 +23,11 @@ public class AIController : Controller
     public Transform[] waypoints;
     public float waypointStopDistance;
 
-    private int currentWaypoint = 0;
+    protected int currentWaypoint = 0;
+
+    protected Vector3 post;
+
+    public float postWanderDistance;
 
     // Start is called before the first frame update
     public override void Start()
@@ -218,6 +222,19 @@ public class AIController : Controller
         // Do Nothing
     }
 
+    protected void DoScanState()
+    {
+        Scan();
+    }
+
+    protected void DoAlertState()
+    {
+        if (target != null)
+        {
+            RotateTowards(target.transform.position);
+        }
+    }
+
     protected void DoChaseState()
     {
         if (target != null)
@@ -247,12 +264,37 @@ public class AIController : Controller
         }
     }
 
+    protected void DoWithdrawState()
+    {
+        if (target != null)
+        {
+            BackAway(target);
+            Shoot();
+        }
+    }
+
     protected void DoPatrolState()
     {
         Patrol();
     }
 
+    protected void DoBackToPostState()
+    {
+        Seek(post);
+    }
+
     // Behaviors
+    protected void Scan()
+    {
+        pawn.RotateClockwise(0.5f);
+    }
+
+    protected void RotateTowards(Vector3 targetPosition)
+    {
+        // Tell our pawn to rotate towards the targetPosition
+        pawn.RotateTowards(targetPosition);
+    }
+
     protected void Seek(Vector3 targetPosition)
     {
         // Rotate towards the targetPosition
@@ -301,6 +343,24 @@ public class AIController : Controller
         Seek(pawn.transform.position + fleeVector);
     }
 
+    protected void BackAway(Vector3 targetPosition)
+    {
+        // Rotate towards the targetPosition
+        pawn.RotateTowards(targetPosition);
+        // Move Backward
+        pawn.MoveBackward();
+    }
+
+    protected void BackAway(Transform targetTransform)
+    {
+        BackAway(targetTransform.position);
+    }
+
+    protected void BackAway(GameObject target)
+    {
+        BackAway(target.transform);
+    }
+
     protected void Patrol()
     {
         // If we have enough waypoints in our list to move to a current waypoint
@@ -308,6 +368,7 @@ public class AIController : Controller
         {
             // Then seek that waypoint
             Seek(waypoints[currentWaypoint]);
+            post = pawn.transform.position;
             // If we are close enough, then increment to next waypoint
             if (Vector3.Distance(pawn.transform.position, waypoints[currentWaypoint].position) < waypointStopDistance)
             {
@@ -442,17 +503,40 @@ public class AIController : Controller
         
     }
 
+    public void SetCurrentWaypointToClosest()
+    {
+        if (waypoints.Length > 0)
+        {
+            // Assume that the first waypoint is the closest
+            int closestWaypoint = 0;
+            float closestWaypointDistance = Vector3.Distance(pawn.transform.position, waypoints[closestWaypoint].transform.position);
+
+            for (int newWaypoint = 0; newWaypoint < waypoints.Length; newWaypoint++)
+            {
+                // If this one is closer than the closest
+                if (Vector3.Distance(pawn.transform.position, waypoints[newWaypoint].transform.position) <= closestWaypointDistance)
+                {
+                    // Then this one is the new closest
+                    closestWaypoint = newWaypoint;
+                    closestWaypointDistance = Vector3.Distance(pawn.transform.position, waypoints[newWaypoint].transform.position);
+                }
+            }
+
+            currentWaypoint = closestWaypoint;
+        }
+    }
+
     protected bool IsHasTarget()
     {
         // Return true if we have a target, false if we don't
         return (target != null);
     }
 
-    protected bool IsDistanceLessThan(GameObject target, float distance)
+    protected bool IsDistanceLessThan(Vector3 targetPos, float distance)
     {
-        if (target != null)
+        if (targetPos != null)
         {
-            if (Vector3.Distance(pawn.transform.position, target.transform.position) < distance)
+            if (Vector3.Distance(pawn.transform.position, targetPos) < distance)
             {
                 return true;
             }
@@ -460,6 +544,30 @@ public class AIController : Controller
             {
                 return false;
             }
+        }
+        else
+        {
+            return false;
+        }
+    }
+
+    protected bool IsDistanceLessThan(Transform targetTf, float distance)
+    {
+        if (targetTf != null)
+        {
+            return IsDistanceLessThan(targetTf.position, distance);
+        }
+        else
+        {
+            return false;
+        }
+    }
+
+    protected bool IsDistanceLessThan(GameObject target, float distance)
+    {
+        if (target != null)
+        {
+            return IsDistanceLessThan(target.transform, distance);
         }
         else
         {

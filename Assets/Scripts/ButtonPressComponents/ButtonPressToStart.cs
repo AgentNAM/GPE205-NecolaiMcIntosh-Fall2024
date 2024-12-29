@@ -9,6 +9,7 @@ public class ButtonPressToStart : MonoBehaviour
         if (GameManager.instance != null)
         {
             GameManager.instance.ActivateMainMenu();
+            GameManager.instance.PlayButtonPressSFX();
         }
     }
 }

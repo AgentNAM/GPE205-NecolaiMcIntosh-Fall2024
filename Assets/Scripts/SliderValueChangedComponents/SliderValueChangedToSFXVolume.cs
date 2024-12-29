@@ -11,13 +11,8 @@ public class SliderValueChangedToSFXVolume : MonoBehaviour
     void Start()
     {
         slider = GetComponent<Slider>();
-        GameManager.instance.SetSFXVolume();
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
+        // Debug.Log("SFX volume active");
+        // SetSFXVolume();
     }
 
     public void SetSFXVolume()
@@ -26,7 +21,7 @@ public class SliderValueChangedToSFXVolume : MonoBehaviour
         {
             if (slider != null)
             {
-                // Debug.Log(slider.value);
+                // Debug.Log("SFX volume: " + slider.value);
                 GameManager.instance.SetSFXVolume();
             }
         }

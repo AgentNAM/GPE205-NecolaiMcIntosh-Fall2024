@@ -405,6 +405,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   powerup:
-    duration: 25
+    duration: 50
     isPermanent: 0
     damageBoostAmount: 0.5
+  sfxCollect: {fileID: 8300000, guid: 4bc21899eae7448ccaf4ebdd49cfcd9f, type: 3}
+  sfxCollectPrefab: {fileID: 3212532994085224499, guid: e4a52e3fa969ddf41a8090ba86f39a8b, type: 3}

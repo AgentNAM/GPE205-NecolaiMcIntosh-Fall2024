@@ -9,6 +9,7 @@ public class ButtonPressToCredits : MonoBehaviour
         if (GameManager.instance != null)
         {
             GameManager.instance.ActivateCredits();
+            GameManager.instance.PlayButtonPressSFX();
         }
     }
 }
